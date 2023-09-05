@@ -28,7 +28,7 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 reggie:
-  path: /root/reggie
+  path: /root/pigsales
 
 
 #  server:
