@@ -1,0 +1,418 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 124.71.65.12
+ Source Server Type    : MySQL
+ Source Server Version : 80024 (8.0.24)
+ Source Host           : 124.71.65.12:13306
+ Source Schema         : reggie
+
+ Target Server Type    : MySQL
+ Target Server Version : 80024 (8.0.24)
+ File Encoding         : 65001
+
+ Date: 17/05/2023 20:11:47
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for address_book
+-- ----------------------------
+DROP TABLE IF EXISTS `address_book`;
+CREATE TABLE `address_book`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `user_id` bigint NOT NULL COMMENT '用户id',
+  `consignee` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '收货人',
+  `sex` tinyint NOT NULL COMMENT '性别 0 女 1 男',
+  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '手机号',
+  `province_code` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '省级区划编号',
+  `province_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '省级名称',
+  `city_code` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '市级区划编号',
+  `city_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '市级名称',
+  `district_code` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '区级区划编号',
+  `district_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '区级名称',
+  `detail` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '详细地址',
+  `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标签',
+  `is_default` tinyint(1) NOT NULL DEFAULT 0 COMMENT '默认 0 否 1是',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_user` bigint NOT NULL COMMENT '创建人',
+  `update_user` bigint NOT NULL COMMENT '修改人',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '地址管理' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of address_book
+-- ----------------------------
+INSERT INTO `address_book` VALUES (1417414526093082626, 1417012167126876162, '小明', 1, '13812345678', NULL, NULL, NULL, NULL, NULL, NULL, '昌平区金燕龙办公楼', '公司', 1, '2021-07-20 17:22:12', '2021-07-20 17:26:33', 1417012167126876162, 1417012167126876162, 0);
+INSERT INTO `address_book` VALUES (1417414926166769666, 1417012167126876162, '小李', 1, '13512345678', NULL, NULL, NULL, NULL, NULL, NULL, '测试', '家', 0, '2021-07-20 17:23:47', '2021-07-20 17:23:47', 1417012167126876162, 1417012167126876162, 0);
+INSERT INTO `address_book` VALUES (1657916229471440897, 1, '赵宇', 1, '14346525624', NULL, NULL, NULL, NULL, NULL, NULL, '仲恺', '学校', 1, '2023-05-15 09:10:06', '2023-05-15 09:10:09', 1, 1, 0);
+INSERT INTO `address_book` VALUES (1657917935940886530, 1657763083873005569, '赵宇', 1, '13943523456', NULL, NULL, NULL, NULL, NULL, NULL, '仲恺', '学校', 1, '2023-05-15 09:16:53', '2023-05-17 09:51:32', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `address_book` VALUES (1657933557241057282, 1657930713281769473, '薛天常', 1, '18319714791', NULL, NULL, NULL, NULL, NULL, NULL, '仲恺农业工程学院北区8615', '学校', 1, '2023-05-15 10:18:58', '2023-05-15 10:19:01', 1657930713281769473, 1657930713281769473, 0);
+INSERT INTO `address_book` VALUES (1658097396966469633, 1657550961545138177, '小小', 1, '13453534543', NULL, NULL, NULL, NULL, NULL, NULL, '仲恺农业工程学院', '学校', 0, '2023-05-15 21:10:00', '2023-05-15 21:10:02', 1657550961545138177, 1657550961545138177, 0);
+INSERT INTO `address_book` VALUES (1658632656510709761, 1657550961545138177, '大大', 1, '13534593455', NULL, NULL, NULL, NULL, NULL, NULL, '仲恺', '学校', 1, '2023-05-17 08:36:56', '2023-05-17 08:37:00', 1657550961545138177, 1657550961545138177, 0);
+
+-- ----------------------------
+-- Table structure for category
+-- ----------------------------
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `type` int NULL DEFAULT NULL COMMENT '类型   1 菜品分类 2 套餐分类',
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '分类名称',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '顺序',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_user` bigint NOT NULL COMMENT '创建人',
+  `update_user` bigint NOT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_category_name`(`name` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '菜品及套餐分类' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of category
+-- ----------------------------
+INSERT INTO `category` VALUES (1657741268253421569, 1, '华南型猪', 2, '2023-05-14 21:34:52', '2023-05-15 08:25:24', 1, 1657763083873005569);
+INSERT INTO `category` VALUES (1657902177848434689, 1, '华北型猪', 3, '2023-05-15 08:14:16', '2023-05-15 08:25:16', 1657763083873005569, 1657763083873005569);
+INSERT INTO `category` VALUES (1657902238011531265, 1, '华东型猪', 4, '2023-05-15 08:14:31', '2023-05-15 08:25:42', 1657763083873005569, 1657763083873005569);
+INSERT INTO `category` VALUES (1657902314897317890, 1, '华中型猪', 5, '2023-05-15 08:14:49', '2023-05-15 08:25:50', 1657763083873005569, 1657763083873005569);
+INSERT INTO `category` VALUES (1657914964230279170, 1, '东北型猪', 1, '2023-05-15 09:05:05', '2023-05-15 09:05:05', 1, 1);
+INSERT INTO `category` VALUES (1658104664306577409, 2, '华北华中套餐', 6, '2023-05-15 21:38:53', '2023-05-15 22:24:07', 1657763083873005569, 1657763083873005569);
+INSERT INTO `category` VALUES (1658104742832336897, 2, '华南华北套餐', 7, '2023-05-15 21:39:11', '2023-05-15 22:24:24', 1657763083873005569, 1657763083873005569);
+INSERT INTO `category` VALUES (1658116196113403905, 2, '两头东北民猪', 8, '2023-05-15 22:24:42', '2023-05-15 22:24:42', 1657763083873005569, 1657763083873005569);
+
+-- ----------------------------
+-- Table structure for dish
+-- ----------------------------
+DROP TABLE IF EXISTS `dish`;
+CREATE TABLE `dish`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '菜品名称',
+  `category_id` bigint NOT NULL COMMENT '菜品分类id',
+  `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '菜品价格',
+  `code` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '商品码',
+  `image` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '图片',
+  `description` varchar(400) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '描述信息',
+  `status` int NOT NULL DEFAULT 1 COMMENT '0 停售 1 起售',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '顺序',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_user` bigint NOT NULL COMMENT '创建人',
+  `update_user` bigint NOT NULL COMMENT '修改人',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_dish_name`(`name` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '菜品管理' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dish
+-- ----------------------------
+INSERT INTO `dish` VALUES (1658099639278637058, '东北民猪', 1657914964230279170, 40000.00, '', '30cb6e6d-c5da-47f4-ac87-889f7fcc8ccb.png', '猪肥', 1, 0, '2023-05-15 21:18:55', '2023-05-15 21:18:55', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658099781733978113, '海南文昌猪', 1657741268253421569, 45000.00, '', 'ce55317d-0e38-43d1-83e3-02b5a600fdb2.png', '繁殖率高', 1, 0, '2023-05-15 21:19:29', '2023-05-15 21:19:29', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658099908678782977, '华中两头猪', 1657902314897317890, 60000.00, '', '4e0b9ec8-4b79-49ce-9223-563014d0eb46.png', '繁殖率高', 1, 0, '2023-05-15 21:19:59', '2023-05-15 21:19:59', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658100163143012354, '陆川猪', 1657741268253421569, 35000.00, '', 'fc651af3-433b-446b-9295-88600165186e.png', '肥美', 1, 0, '2023-05-15 21:21:00', '2023-05-15 21:21:00', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658104517476577282, '东北黑猪', 1657914964230279170, 60000.00, '', '5775aa99-b464-490e-83d2-4657af305f22.jpg', '黑', 1, 0, '2023-05-15 21:38:18', '2023-05-15 21:38:18', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658108716348174338, '北京黑猪', 1657902177848434689, 50000.00, '', '788d0c63-e21c-4af7-b2ec-6638b5514137.jpg', '好黑', 1, 0, '2023-05-15 21:54:59', '2023-05-15 21:54:59', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658109034494537729, '大约克猪', 1657902177848434689, 45000.00, '', 'f5a8837e-425d-43d7-8523-21eef7d28408.jpg', '很白', 1, 0, '2023-05-15 21:56:15', '2023-05-15 21:56:15', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658109347586748417, '晋汾白猪', 1657902177848434689, 60000.00, '', '254b35ca-5b2a-4d5a-8e17-11fc2e9ddd1e.jpg', '很白', 1, 0, '2023-05-15 21:57:29', '2023-05-15 21:57:29', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658109495456935938, '青岛黑猪', 1657902177848434689, 63000.00, '', '46f571c6-6a02-4f1e-bafb-bcaba4cf7cae.jpg', '很黑', 1, 0, '2023-05-15 21:58:05', '2023-05-15 21:58:05', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658109732988760065, '崇明沙乌头猪', 1657902238011531265, 80000.00, '', '5506477d-4e2f-44e1-be8c-1919f4f38c41.jpg', '肥', 1, 0, '2023-05-15 21:59:01', '2023-05-15 21:59:01', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658109858130014209, '苏丹猪', 1657902238011531265, 70000.00, '', 'b52d1e77-593a-4c48-99d5-fdd27c7fcc24.jpg', '肉质好', 1, 0, '2023-05-15 21:59:31', '2023-05-15 21:59:31', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658110063357308929, '长白山黑猪', 1657902238011531265, 80000.00, '', 'f071f30e-e4d3-42a0-bba8-0a073a1d7b26.jpg', '繁殖率高', 1, 0, '2023-05-15 22:00:20', '2023-05-15 22:00:20', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658110241023832065, '潮州猪', 1657741268253421569, 42000.00, '', '0f384992-b666-46a4-a092-d89a7d48395a.jpg', '肥美', 1, 0, '2023-05-15 22:01:02', '2023-05-15 22:01:02', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658110793073930241, '福建黑猪', 1657741268253421569, 60000.00, '', 'b199a50a-7f57-40ec-8669-666725fc1ad8.jpg', '黑', 1, 0, '2023-05-15 22:03:14', '2023-05-15 22:03:14', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658110920719183873, '小花猪', 1657741268253421569, 50000.00, '', '62c152f5-c754-47a7-a4a9-20d736252ab9.jpg', '繁殖率高', 1, 0, '2023-05-15 22:03:44', '2023-05-15 22:03:44', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658111087505682434, '大围子猪', 1657902314897317890, 60000.00, '', '4649650e-8fea-4bf9-9dd2-ca19abe12f98.jpg', '肥美', 1, 0, '2023-05-15 22:04:24', '2023-05-15 22:04:24', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658111242560712705, '龙山猪', 1657902314897317890, 80000.00, '', '05df850d-dc09-4ec0-91d5-8b9d88c5eb73.jpg', '繁殖率', 1, 0, '2023-05-15 22:05:01', '2023-05-15 22:05:01', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658111709340610562, '宁乡猪', 1657902314897317890, 50000.00, '', 'b42f10d0-acc4-4e7e-aa4f-fa41eb58a74f.jpg', '繁殖率高', 1, 0, '2023-05-15 22:06:52', '2023-05-15 22:06:52', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `dish` VALUES (1658111869596577793, '湘猪123', 1657902314897317890, 32000.00, '', 'e5432839-a9eb-4d9d-aea3-176a8fabf68d.jpeg', '肥美', 1, 0, '2023-05-15 22:07:31', '2023-05-17 09:47:03', 1657763083873005569, 1657763083873005569, 0);
+
+-- ----------------------------
+-- Table structure for dish_flavor
+-- ----------------------------
+DROP TABLE IF EXISTS `dish_flavor`;
+CREATE TABLE `dish_flavor`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `dish_id` bigint NOT NULL COMMENT '菜品',
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '口味名称',
+  `value` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '口味数据list',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_user` bigint NOT NULL COMMENT '创建人',
+  `update_user` bigint NOT NULL COMMENT '修改人',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '菜品口味关系表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dish_flavor
+-- ----------------------------
+INSERT INTO `dish_flavor` VALUES (1397849417888346113, 1397849417854791681, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:37:27', '2021-05-27 09:37:27', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397849739297861633, 1397849739276890114, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:38:43', '2021-05-27 09:38:43', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397849739323027458, 1397849739276890114, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:38:43', '2021-05-27 09:38:43', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397849936421761025, 1397849936404983809, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:39:30', '2021-05-27 09:39:30', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397849936438538241, 1397849936404983809, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:39:30', '2021-05-27 09:39:30', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850141015715841, 1397850140982161409, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:40:19', '2021-05-27 09:40:19', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850141040881665, 1397850140982161409, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:40:19', '2021-05-27 09:40:19', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850392120307713, 1397850392090947585, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:41:19', '2021-05-27 09:41:19', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850392137084929, 1397850392090947585, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:41:19', '2021-05-27 09:41:19', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850630734262274, 1397850630700707841, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:42:16', '2021-05-27 09:42:16', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850630755233794, 1397850630700707841, '辣度', '[\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:42:16', '2021-05-27 09:42:16', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850851274960898, 1397850851245600769, '忌口', '[\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:43:08', '2021-05-27 09:43:08', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397850851283349505, 1397850851245600769, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:43:08', '2021-05-27 09:43:08', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397851099523231745, 1397851099502260226, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:44:08', '2021-05-27 09:44:08', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397851099527426050, 1397851099502260226, '辣度', '[\"不辣\",\"微辣\",\"中辣\"]', '2021-05-27 09:44:08', '2021-05-27 09:44:08', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397851370483658754, 1397851370462687234, '温度', '[\"热饮\",\"常温\",\"去冰\",\"少冰\",\"多冰\"]', '2021-05-27 09:45:12', '2021-05-27 09:45:12', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397851370483658755, 1397851370462687234, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:45:12', '2021-05-27 09:45:12', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397851370483658756, 1397851370462687234, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:45:12', '2021-05-27 09:45:12', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397851668283437058, 1397851668262465537, '温度', '[\"热饮\",\"常温\",\"去冰\",\"少冰\",\"多冰\"]', '2021-05-27 09:46:23', '2021-05-27 09:46:23', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397852391180120065, 1397852391150759938, '忌口', '[\"不要葱\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:49:16', '2021-05-27 09:49:16', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397852391196897281, 1397852391150759938, '辣度', '[\"不辣\",\"微辣\",\"重辣\"]', '2021-05-27 09:49:16', '2021-05-27 09:49:16', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397853183307984898, 1397853183287013378, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:52:24', '2021-05-27 09:52:24', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397853423486414850, 1397853423461249026, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:53:22', '2021-05-27 09:53:22', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397853709126905857, 1397853709101740034, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:54:30', '2021-05-27 09:54:30', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397853890283089922, 1397853890262118402, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:55:13', '2021-05-27 09:55:13', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397854133632413697, 1397854133603053569, '温度', '[\"热饮\",\"常温\",\"去冰\",\"少冰\",\"多冰\"]', '2021-05-27 09:56:11', '2021-05-27 09:56:11', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397854652623007745, 1397854652581064706, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 09:58:15', '2021-05-27 09:58:15', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397854652635590658, 1397854652581064706, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:58:15', '2021-05-27 09:58:15', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397854865735593986, 1397854865672679425, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 09:59:06', '2021-05-27 09:59:06', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397855742303186946, 1397855742273826817, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:02:35', '2021-05-27 10:02:35', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397855906497605633, 1397855906468245506, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 10:03:14', '2021-05-27 10:03:14', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397856190573621250, 1397856190540066818, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:04:21', '2021-05-27 10:04:21', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397859056709316609, 1397859056684150785, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:15:45', '2021-05-27 10:15:45', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397859277837217794, 1397859277812051969, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:16:37', '2021-05-27 10:16:37', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397859487502086146, 1397859487476920321, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:17:27', '2021-05-27 10:17:27', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397859757061615618, 1397859757036449794, '甜味', '[\"无糖\",\"少糖\",\"半躺\",\"多糖\",\"全糖\"]', '2021-05-27 10:18:32', '2021-05-27 10:18:32', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397860242086735874, 1397860242057375745, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:20:27', '2021-05-27 10:20:27', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397860963918065665, 1397860963880316929, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:23:19', '2021-05-27 10:23:19', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397861135754506242, 1397861135733534722, '甜味', '[\"无糖\",\"少糖\",\"半躺\",\"多糖\",\"全糖\"]', '2021-05-27 10:24:00', '2021-05-27 10:24:00', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397861370035744769, 1397861370010578945, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-27 10:24:56', '2021-05-27 10:24:56', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397861683459305474, 1397861683434139649, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 10:26:11', '2021-05-27 10:26:11', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397861898467717121, 1397861898438356993, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 10:27:02', '2021-05-27 10:27:02', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397862198054268929, 1397862198033297410, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-27 10:28:14', '2021-05-27 10:28:14', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1397862477835317250, 1397862477831122945, '辣度', '[\"不辣\",\"微辣\",\"中辣\"]', '2021-05-27 10:29:20', '2021-05-27 10:29:20', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398089545865015297, 1398089545676271617, '温度', '[\"热饮\",\"常温\",\"去冰\",\"少冰\",\"多冰\"]', '2021-05-28 01:31:38', '2021-05-28 01:31:38', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398089782323097601, 1398089782285348866, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:32:34', '2021-05-28 01:32:34', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398090003262255106, 1398090003228700673, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-28 01:33:27', '2021-05-28 01:33:27', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398090264554811394, 1398090264517062657, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-28 01:34:29', '2021-05-28 01:34:29', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398090455399837698, 1398090455324340225, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:35:14', '2021-05-28 01:35:14', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398090685449023490, 1398090685419663362, '温度', '[\"热饮\",\"常温\",\"去冰\",\"少冰\",\"多冰\"]', '2021-05-28 01:36:09', '2021-05-28 01:36:09', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398090825358422017, 1398090825329061889, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-28 01:36:43', '2021-05-28 01:36:43', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398091007051476993, 1398091007017922561, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:37:26', '2021-05-28 01:37:26', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398091296164851713, 1398091296131297281, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:38:35', '2021-05-28 01:38:35', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398091546531246081, 1398091546480914433, '忌口', '[\"不要葱\",\"不要蒜\",\"不要香菜\",\"不要辣\"]', '2021-05-28 01:39:35', '2021-05-28 01:39:35', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398091729809747969, 1398091729788776450, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:40:18', '2021-05-28 01:40:18', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398091889499484161, 1398091889449152513, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:40:56', '2021-05-28 01:40:56', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398092095179763713, 1398092095142014978, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:41:45', '2021-05-28 01:41:45', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398092283877306370, 1398092283847946241, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:42:30', '2021-05-28 01:42:30', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398094018939236354, 1398094018893099009, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:49:24', '2021-05-28 01:49:24', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1398094391494094850, 1398094391456346113, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-05-28 01:50:53', '2021-05-28 01:50:53', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1399574026165727233, 1399305325713600514, '辣度', '[\"不辣\",\"微辣\",\"中辣\",\"重辣\"]', '2021-06-01 03:50:25', '2021-06-01 03:50:25', 1399309715396669441, 1399309715396669441, 0);
+INSERT INTO `dish_flavor` VALUES (1413389540592263169, 1413384757047271425, '温度', '[\"常温\",\"冷藏\"]', '2021-07-12 09:09:16', '2021-07-12 09:09:16', 1, 1, 0);
+INSERT INTO `dish_flavor` VALUES (1413389684020682754, 1413342036832100354, '温度', '[\"常温\",\"冷藏\"]', '2021-07-09 15:12:18', '2021-07-09 15:12:18', 1, 1, 0);
+
+-- ----------------------------
+-- Table structure for employee
+-- ----------------------------
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE `employee`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '姓名',
+  `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '用户名',
+  `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '密码',
+  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '手机号',
+  `sex` varchar(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '性别',
+  `id_number` varchar(18) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '身份证号',
+  `status` int NOT NULL DEFAULT 1 COMMENT '状态 0:禁用，1:正常',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_user` bigint NOT NULL COMMENT '创建人',
+  `update_user` bigint NOT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_username`(`username` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '员工信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of employee
+-- ----------------------------
+INSERT INTO `employee` VALUES (1, '管理员', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '13812312312', '1', '110101199001010047', 1, '2021-05-06 17:20:07', '2021-05-10 02:24:09', 1, 1);
+INSERT INTO `employee` VALUES (1657763083873005569, 'test', 'test1', 'e10adc3949ba59abbe56e057f20f883e', '18319714587', '1', '445212525632587414', 1, '2023-05-14 23:01:34', '2023-05-14 23:01:34', 1, 1);
+
+-- ----------------------------
+-- Table structure for order_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `order_detail`;
+CREATE TABLE `order_detail`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '名字',
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片',
+  `order_id` bigint NOT NULL COMMENT '订单id',
+  `dish_id` bigint NULL DEFAULT NULL COMMENT '菜品id',
+  `setmeal_id` bigint NULL DEFAULT NULL COMMENT '套餐id',
+  `dish_flavor` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '口味',
+  `number` int NOT NULL DEFAULT 1 COMMENT '数量',
+  `amount` decimal(10, 2) NOT NULL COMMENT '金额',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '订单明细表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of order_detail
+-- ----------------------------
+INSERT INTO `order_detail` VALUES (1657933648953708546, '东北黑猪', '125b7b1c-8096-4452-bc7e-b7e9f4143065.jpg', 1657933648886599681, 1657915382746320897, NULL, NULL, 1, 600.00);
+INSERT INTO `order_detail` VALUES (1657933648953708547, '东北民猪', 'af37dbb4-a513-4741-9ee1-729212a0fc41.jpg', 1657933648886599681, 1657915160641146881, NULL, NULL, 1, 600.00);
+INSERT INTO `order_detail` VALUES (1658097430155997185, '全选套餐', '3fe0a558-dc83-497a-9aa1-fe85d2283a99.png', 1658097430088888322, NULL, 1658030894985900033, NULL, 1, 800.00);
+INSERT INTO `order_detail` VALUES (1658097430155997186, '华北华中型优惠 ', 'eac8aa14-fd77-4ea0-bffb-99f7305e38d8.jpg', 1658097430088888322, NULL, 1657912580515041281, NULL, 1, 850.00);
+INSERT INTO `order_detail` VALUES (1658452569309069314, '湘猪', 'e5432839-a9eb-4d9d-aea3-176a8fabf68d.jpeg', 1658452569099354113, 1658111869596577793, NULL, NULL, 1, 320.00);
+INSERT INTO `order_detail` VALUES (1658452728671649793, '东北民猪', '30cb6e6d-c5da-47f4-ac87-889f7fcc8ccb.png', 1658452728545820674, 1658099639278637058, NULL, NULL, 1, 400.00);
+INSERT INTO `order_detail` VALUES (1658453251709747202, '小花猪', '62c152f5-c754-47a7-a4a9-20d736252ab9.jpg', 1658453251646832642, 1658110920719183873, NULL, NULL, 1, 500.00);
+INSERT INTO `order_detail` VALUES (1658458177181655041, '苏丹猪', 'b52d1e77-593a-4c48-99d5-fdd27c7fcc24.jpg', 1658458176913219586, 1658109858130014209, NULL, NULL, 1, 700.00);
+INSERT INTO `order_detail` VALUES (1658461480752713730, '宁乡猪', 'b42f10d0-acc4-4e7e-aa4f-fa41eb58a74f.jpg', 1658461480685604866, 1658111709340610562, NULL, NULL, 1, 500.00);
+INSERT INTO `order_detail` VALUES (1658461480752713731, '小花猪北京黑猪套餐', '1281c221-6601-4427-ba40-dda7458e7024.png', 1658461480685604866, NULL, 1658116627040391169, NULL, 1, 1000.00);
+INSERT INTO `order_detail` VALUES (1658632720738086913, '小花猪北京黑猪套餐', '1281c221-6601-4427-ba40-dda7458e7024.png', 1658632720608063489, NULL, 1658116627040391169, NULL, 1, 1000.00);
+INSERT INTO `order_detail` VALUES (1658632720738086914, '长白山黑猪', 'f071f30e-e4d3-42a0-bba8-0a073a1d7b26.jpg', 1658632720608063489, 1658110063357308929, NULL, NULL, 1, 800.00);
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `number` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '订单号',
+  `status` int NOT NULL DEFAULT 1 COMMENT '订单状态 1待付款，2待派送，3已派送，4已完成，5已取消',
+  `user_id` bigint NOT NULL COMMENT '下单用户',
+  `address_book_id` bigint NOT NULL COMMENT '地址id',
+  `order_time` datetime NOT NULL COMMENT '下单时间',
+  `checkout_time` datetime NOT NULL COMMENT '结账时间',
+  `pay_method` int NOT NULL DEFAULT 1 COMMENT '支付方式 1微信,2支付宝',
+  `amount` decimal(10, 2) NOT NULL COMMENT '实收金额',
+  `remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '备注',
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `consignee` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '订单表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of orders
+-- ----------------------------
+INSERT INTO `orders` VALUES (1657933648886599681, '1657933648886599681', 2, 1657930713281769473, 1657933557241057282, '2023-05-15 10:19:19', '2023-05-15 10:19:19', 1, 1200.00, '香骨鸡换薯条', '18319714791', '仲恺农业工程学院北区8615', NULL, '薛天常');
+INSERT INTO `orders` VALUES (1658097430088888322, '1658097430088888322', 2, 1657550961545138177, 1658097396966469633, '2023-05-15 21:10:08', '2023-05-15 21:10:08', 1, 1650.00, '', '13453534543', '仲恺农业工程学院', NULL, '小小');
+INSERT INTO `orders` VALUES (1658452569099354113, '1658452569099354113', 2, 1657550961545138177, 1658097396966469633, '2023-05-16 20:41:20', '2023-05-16 20:41:20', 1, 320.00, '', '13453534543', '仲恺农业工程学院', NULL, '小小');
+INSERT INTO `orders` VALUES (1658452728545820674, '1658452728545820674', 2, 1657550961545138177, 1658097396966469633, '2023-05-16 20:41:58', '2023-05-16 20:41:58', 1, 400.00, '', '13453534543', '仲恺农业工程学院', NULL, '小小');
+INSERT INTO `orders` VALUES (1658453251646832642, '1658453251646832642', 2, 1657550961545138177, 1658097396966469633, '2023-05-16 20:44:02', '2023-05-16 20:44:02', 1, 500.00, '', '13453534543', '仲恺农业工程学院', NULL, '小小');
+INSERT INTO `orders` VALUES (1658458176913219586, '1658458176913219586', 2, 1657550961545138177, 1658097396966469633, '2023-05-16 21:03:37', '2023-05-16 21:03:37', 1, 700.00, '', '13453534543', '仲恺农业工程学院', NULL, '小小');
+INSERT INTO `orders` VALUES (1658461480685604866, '1658461480685604866', 2, 1657550961545138177, 1658097396966469633, '2023-05-16 21:16:44', '2023-05-16 21:16:44', 1, 1500.00, '', '13453534543', '仲恺农业工程学院', NULL, '小小');
+INSERT INTO `orders` VALUES (1658632720608063489, '1658632720608063489', 2, 1657550961545138177, 1658632656510709761, '2023-05-17 08:37:11', '2023-05-17 08:37:11', 1, 1800.00, '', '13534593455', '仲恺', NULL, '大大');
+
+-- ----------------------------
+-- Table structure for setmeal
+-- ----------------------------
+DROP TABLE IF EXISTS `setmeal`;
+CREATE TABLE `setmeal`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `category_id` bigint NOT NULL COMMENT '菜品分类id',
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '套餐名称',
+  `price` decimal(10, 2) NOT NULL COMMENT '套餐价格',
+  `status` int NULL DEFAULT NULL COMMENT '状态 0:停用 1:启用',
+  `code` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '编码',
+  `description` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '描述信息',
+  `image` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_user` bigint NOT NULL COMMENT '创建人',
+  `update_user` bigint NOT NULL COMMENT '修改人',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_setmeal_name`(`name` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '套餐' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of setmeal
+-- ----------------------------
+INSERT INTO `setmeal` VALUES (1658116493917376513, 1658104664306577409, '青岛黑猪湘猪套餐', 90000.00, 1, '', '便宜', '8c8cd8f0-cc4a-47ac-a817-9fe8f640b855.jpg', '2023-05-15 22:25:53', '2023-05-15 22:25:53', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal` VALUES (1658116627040391169, 1658104742832336897, '小花猪北京黑猪套餐', 100000.00, 1, '', '性价比高', '1281c221-6601-4427-ba40-dda7458e7024.png', '2023-05-15 22:26:25', '2023-05-15 22:26:25', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal` VALUES (1658116754438180866, 1658116196113403905, '东北民猪套餐', 79000.00, 1, '', '便宜', 'dfbc0feb-affb-4985-80d2-1180282cce87.jpg', '2023-05-15 22:26:55', '2023-05-17 09:48:26', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal` VALUES (1658650843701960706, 1658104742832336897, '111', 20000.00, 1, '', '好', 'daf980b8-9bd8-4837-9df3-199fe0ab4a7f.jpeg', '2023-05-17 09:49:12', '2023-05-17 09:49:12', 1657763083873005569, 1657763083873005569, 0);
+
+-- ----------------------------
+-- Table structure for setmeal_dish
+-- ----------------------------
+DROP TABLE IF EXISTS `setmeal_dish`;
+CREATE TABLE `setmeal_dish`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `setmeal_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '套餐id ',
+  `dish_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '菜品id',
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '菜品名称 （冗余字段）',
+  `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '菜品原价（冗余字段）',
+  `copies` int NOT NULL COMMENT '份数',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_user` bigint NOT NULL COMMENT '创建人',
+  `update_user` bigint NOT NULL COMMENT '修改人',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '套餐菜品关系' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of setmeal_dish
+-- ----------------------------
+INSERT INTO `setmeal_dish` VALUES (1658116493984485378, '1658116493917376513', '1658109495456935938', '青岛黑猪', 63000.00, 1, 0, '2023-05-15 22:25:53', '2023-05-15 22:25:53', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal_dish` VALUES (1658116493984485379, '1658116493917376513', '1658111869596577793', '湘猪', 32000.00, 1, 0, '2023-05-15 22:25:53', '2023-05-15 22:25:53', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal_dish` VALUES (1658116627103305730, '1658116627040391169', '1658110920719183873', '小花猪', 50000.00, 1, 0, '2023-05-15 22:26:25', '2023-05-15 22:26:25', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal_dish` VALUES (1658116627103305731, '1658116627040391169', '1658108716348174338', '北京黑猪', 50000.00, 1, 0, '2023-05-15 22:26:25', '2023-05-15 22:26:25', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal_dish` VALUES (1658116754501095425, '1658116754438180866', '1658099639278637058', '东北民猪', 40000.00, 2, 0, '2023-05-15 22:26:55', '2023-05-15 22:26:55', 1657763083873005569, 1657763083873005569, 0);
+INSERT INTO `setmeal_dish` VALUES (1658650844033310721, '1658650843701960706', '1658104517476577282', '东北黑猪', 60000.00, 1, 0, '2023-05-17 09:49:12', '2023-05-17 09:49:12', 1657763083873005569, 1657763083873005569, 0);
+
+-- ----------------------------
+-- Table structure for shopping_cart
+-- ----------------------------
+DROP TABLE IF EXISTS `shopping_cart`;
+CREATE TABLE `shopping_cart`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '名称',
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片',
+  `user_id` bigint NOT NULL COMMENT '主键',
+  `dish_id` bigint NULL DEFAULT NULL COMMENT '菜品id',
+  `setmeal_id` bigint NULL DEFAULT NULL COMMENT '套餐id',
+  `dish_flavor` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '口味',
+  `number` int NOT NULL DEFAULT 1 COMMENT '数量',
+  `amount` decimal(10, 2) NOT NULL COMMENT '金额',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '购物车' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of shopping_cart
+-- ----------------------------
+INSERT INTO `shopping_cart` VALUES (1657916058889097218, '两头东北黑猪', '2a482e60-eacc-45ca-b90b-7930169ed31b.jpg', 1, NULL, 1657913421099700226, NULL, 1, 1050.00, '2023-05-15 09:09:26');
+INSERT INTO `shopping_cart` VALUES (1657916068758294529, '龙山猪', '7a5565a9-dd00-4970-aa53-03385094f624.jpg', 1, 1657909129987055618, NULL, NULL, 1, 550.00, '2023-05-15 09:09:28');
+INSERT INTO `shopping_cart` VALUES (1658440330027999234, '东北民猪', '30cb6e6d-c5da-47f4-ac87-889f7fcc8ccb.png', 1657763083873005569, 1658099639278637058, NULL, NULL, 2, 400.00, '2023-05-16 19:52:42');
+INSERT INTO `shopping_cart` VALUES (1658456879153577985, '东北黑猪', '5775aa99-b464-490e-83d2-4657af305f22.jpg', 1657763083873005569, 1658104517476577282, NULL, NULL, 1, 600.00, '2023-05-16 20:58:27');
+
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user`  (
+  `id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '姓名',
+  `phone` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '手机号',
+  `sex` varchar(2) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '性别',
+  `id_number` varchar(18) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '身份证号',
+  `avatar` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '头像',
+  `status` int NULL DEFAULT 0 COMMENT '状态 0:禁用，1:正常',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '用户信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1657550961545138177, NULL, '18112345678', NULL, NULL, NULL, 1);
+INSERT INTO `user` VALUES (1657930713281769473, NULL, '18319714791', NULL, NULL, NULL, 1);
+
+SET FOREIGN_KEY_CHECKS = 1;
